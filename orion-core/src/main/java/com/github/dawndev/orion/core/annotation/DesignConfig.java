@@ -1,15 +1,17 @@
 package com.github.dawndev.orion.core.annotation;
 
+import org.springframework.stereotype.Controller;
+
 import java.lang.annotation.*;
 
 /**
- * 应用数据
+ * 配置数据
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-//@Controller
-public @interface AppData {
+@Controller
+public @interface DesignConfig {
 
     /**
      * 文件路径
@@ -19,6 +21,6 @@ public @interface AppData {
     /**
      * 文件编码
      */
-    String charSet() default "GBK";
+    String charSet() default "UTF-8";
 
 }
