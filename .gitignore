@@ -39,4 +39,4 @@ build/
 
 ### other ###
 logs/
-idea/
+.idea/
