@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.dawndev.orion</groupId>
+    <artifactId>orion-engine</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>orion-engine</name>
+    <description>orion framework</description>
+    <modules>
+        <module>orion-core</module>
+        <module>orion-gateway</module>
+        <module>orion-portal</module>
+    </modules>
+
+    <properties>
+        <framework.version>${project.version}</framework.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <file.encoding>UTF-8</file.encoding>
+        <project.build.sourceEncoding>${file.encoding}</project.build.sourceEncoding>
+        <maven.compiler.encoding>${file.encoding}</maven.compiler.encoding>
+
+        <spring.version>5.3.22</spring.version>
+        <spring-boot.version>2.7.2</spring-boot.version>
+        <netty.version>4.1.119.Final</netty.version>
+        <junit.version>4.13.2</junit.version>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot Starter 依赖 -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <!--spring-boot配置文件扫描相关-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${spring-boot.version}</version>
+                <optional>true</optional>
+            </dependency>
+            <!-- 其他通用依赖 -->
+            <dependency>
+                <!--netty-->
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

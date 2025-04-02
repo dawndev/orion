@@ -1,0 +1,4 @@
+netty:
+  port: 6003
+  boss-thread-count: 1
+  work-thread-count: 4

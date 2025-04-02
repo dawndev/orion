@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.dawndev.orion</groupId>
+        <artifactId>orion-engine</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>orion-gateway</artifactId>
+
+    <dependencies>
+        <!-- 继承 orion-core 模块 -->
+        <dependency>
+            <groupId>com.github.dawndev.orion</groupId>
+            <artifactId>orion-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- 其他 gate 模块专用依赖 -->
+        <dependency>
+            <!--netty-->
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
