@@ -4,8 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!--    &lt;!&ndash; 定义一个 Bean &ndash;&gt;-->
-<!--    <bean id="myBean" class="com.example.MyBean">-->
-<!--        <property name="name" value="MyBean from XML"/>-->
-<!--    </bean>-->
+    <!-- 定义一个 Modular Bean -->
+    <bean id="myBean" class="com.github.dawndev.orion.core.modular.RpcModular"/>
 </beans>
