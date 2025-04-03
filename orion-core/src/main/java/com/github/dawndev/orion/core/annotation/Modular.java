@@ -18,4 +18,5 @@ public @interface Modular {
      */
     String initMethod() default "init";
 
+    String disposeMethod() default "dispose";
 }

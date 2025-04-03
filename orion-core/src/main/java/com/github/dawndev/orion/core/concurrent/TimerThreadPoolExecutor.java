@@ -1,12 +1,7 @@
 package com.github.dawndev.orion.core.concurrent;
 
-
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.RunnableScheduledFuture;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 
@@ -16,6 +11,10 @@ public class TimerThreadPoolExecutor extends ScheduledThreadPoolExecutor impleme
 
     public TimerThreadPoolExecutor(int corePoolSize) {
         super(corePoolSize);
+    }
+
+    public TimerThreadPoolExecutor(int corePoolSize, ThreadFactory threadFactory) {
+        super(corePoolSize, threadFactory);
     }
 
     @Override

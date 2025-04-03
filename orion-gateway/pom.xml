@@ -18,9 +18,8 @@
             <artifactId>orion-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- 其他 gate 模块专用依赖 -->
+        <!-- 其他 gateway 模块专用依赖 -->
         <dependency>
-            <!--netty-->
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
         </dependency>

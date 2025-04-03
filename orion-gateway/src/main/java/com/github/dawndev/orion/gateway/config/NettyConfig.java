@@ -7,17 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "netty")
 public class NettyConfig {
 
-    private int port = 0;
     private int bossThreadCount = 0;
     private int workThreadCount = 0;
 
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
+    public static final int MAX_FRAME_BYTES_LENGTH = 1024 * 1024 * 32;
 
     public int getBossThreadCount() {
         return bossThreadCount;

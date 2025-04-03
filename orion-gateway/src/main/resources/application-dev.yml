@@ -1,4 +1,14 @@
+spring:
+  application:
+    name: orion-gateway
+#  profiles:
+#    active:
+#      - dev
+
+orion:
+  gateway:
+    tcp-port: 6001
+
 netty:
-  port: 6003
   boss-thread-count: 1
   work-thread-count: 4
