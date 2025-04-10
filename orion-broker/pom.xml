@@ -9,7 +9,7 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>orion-gateway</artifactId>
+    <artifactId>orion-broker</artifactId>
 
     <dependencies>
         <!-- 继承 orion-core 模块 -->

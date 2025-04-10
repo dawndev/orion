@@ -11,22 +11,38 @@
     <name>orion-engine</name>
     <description>orion framework</description>
     <modules>
+        <!-- 网络游戏框架 -->
         <module>orion-core</module>
-        <module>orion-gateway</module>
+        <!-- 网络游戏框架 - 网关框架 -->
+        <module>orion-broker</module>
+        <!-- 网络游戏框架 - 对外服务框架 -->
         <module>orion-portal</module>
     </modules>
 
+    <!--统一管理版本 的一个父 pom-->
     <properties>
         <framework.version>${project.version}</framework.version>
+        <!-- jdk 版本 -->
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <file.encoding>UTF-8</file.encoding>
         <project.build.sourceEncoding>${file.encoding}</project.build.sourceEncoding>
         <maven.compiler.encoding>${file.encoding}</maven.compiler.encoding>
 
+        <!-- temp spring boot https://mvnrepository.com/artifact/org.springframework/spring-core -->
         <spring.version>5.3.22</spring.version>
         <spring-boot.version>2.7.2</spring-boot.version>
+        <!-- 网络库 : https://mvnrepository.com/artifact/io.netty/netty-all -->
         <netty.version>4.1.119.Final</netty.version>
+        <!-- hessian 格式化 https://mvnrepository.com/artifact/com.caucho/hessian -->
+        <hessian.version>4.0.66</hessian.version>
+        <!--  Jansi 控制台输出彩色文字 https://mvnrepository.com/artifact/org.fusesource.jansi/jansi  -->
+        <jansi.version>2.4.1</jansi.version>
+        <!-- Java文档解析器 https://mvnrepository.com/artifact/com.thoughtworks.qdox/qdox -->
+        <qdox.version>2.1.0</qdox.version>
+        <!-- lombok 消除冗长的 Java 代码 https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <lombok.version>1.18.34</lombok.version>
+        <!--  junit https://mvnrepository.com/artifact/junit/junit  -->
         <junit.version>4.13.2</junit.version>
 
     </properties>
@@ -51,13 +67,30 @@
                 <version>${spring-boot.version}</version>
                 <optional>true</optional>
             </dependency>
-            <!-- 其他通用依赖 -->
+
+            <!--netty-->
             <dependency>
-                <!--netty-->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
                 <version>${netty.version}</version>
             </dependency>
+
+            <!-- lombok 简化 java 代码 -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <optional>true</optional>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/junit/junit -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

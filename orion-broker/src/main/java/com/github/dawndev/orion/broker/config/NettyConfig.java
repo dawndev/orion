@@ -1,4 +1,4 @@
-package com.github.dawndev.orion.gateway.config;
+package com.github.dawndev.orion.broker.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

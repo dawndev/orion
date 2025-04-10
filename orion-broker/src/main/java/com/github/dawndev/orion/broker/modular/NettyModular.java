@@ -1,9 +1,9 @@
-package com.github.dawndev.orion.gateway.modular;
+package com.github.dawndev.orion.broker.modular;
 
 import com.github.dawndev.orion.core.annotation.Modular;
-import com.github.dawndev.orion.gateway.config.ApplicationConfig;
-import com.github.dawndev.orion.gateway.config.NettyConfig;
-import com.github.dawndev.orion.gateway.lang.SystemUtils;
+import com.github.dawndev.orion.broker.config.ApplicationConfig;
+import com.github.dawndev.orion.broker.config.NettyConfig;
+import com.github.dawndev.orion.broker.lang.SystemUtils;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+
 import java.io.Closeable;
 import java.util.concurrent.TimeUnit;
 
