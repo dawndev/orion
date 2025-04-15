@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.beans.factory.annotation.Value;
 
 @SpringBootApplication(scanBasePackages={"com.github.dawndev.orion.core", "com.github.dawndev.orion.broker"})
 @ImportResource("classpath:application-context-broker.xml")

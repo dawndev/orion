@@ -1,6 +1,7 @@
 package com.github.dawndev.orion.broker.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -27,4 +28,11 @@ public class NettyConfig {
     public void setWorkThreadCount(int workThreadCount) {
         this.workThreadCount = workThreadCount;
     }
+
+
+//    @Bean(name = "rateLimiter")
+//    public RateLimiter rateLimiter() {
+//        return RateLimiter.create((double) MAX_QPS);
+//    }
+
 }

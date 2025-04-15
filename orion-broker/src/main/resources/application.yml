@@ -12,3 +12,6 @@ orion:
 netty:
   boss-thread-count: 1
   work-thread-count: 4
+
+akka:
+  system-name: broker

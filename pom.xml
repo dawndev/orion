@@ -34,6 +34,10 @@
         <spring-boot.version>2.7.2</spring-boot.version>
         <!-- 网络库 : https://mvnrepository.com/artifact/io.netty/netty-all -->
         <netty.version>4.1.119.Final</netty.version>
+        <!-- Akka :https://mvnrepository.com/artifact/com.typesafe.akka -->
+        <akka.version>2.6.19</akka.version>
+        <!-- Akka Http :https://mvnrepository.com/artifact/com.typesafe.akka -->
+        <akka-http.version>10.2.7</akka-http.version>
         <!-- hessian 格式化 https://mvnrepository.com/artifact/com.caucho/hessian -->
         <hessian.version>4.0.66</hessian.version>
         <!--  Jansi 控制台输出彩色文字 https://mvnrepository.com/artifact/org.fusesource.jansi/jansi  -->
@@ -73,6 +77,83 @@
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
                 <version>${netty.version}</version>
+            </dependency>
+
+            <!-- Akka Actor -->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-actor_2.12</artifactId>
+                <version>${akka.version}</version>
+            </dependency>
+
+            <!-- Akka SLF4J -->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-slf4j_2.12</artifactId>
+                <version>${akka.version}</version>
+            </dependency>
+
+            <!-- Akka Cluster Sharding -->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-cluster-sharding_2.12</artifactId>
+                <version>${akka.version}</version>
+            </dependency>
+
+            <!-- Akka Cluster Metrics -->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-cluster-metrics_2.12</artifactId>
+                <version>${akka.version}</version>
+            </dependency>
+
+            <!-- Akka Distributed Data -->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-distributed-data_2.12</artifactId>
+                <version>${akka.version}</version>
+            </dependency>
+
+            <!-- Akka Stream -->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-stream_2.12</artifactId>
+                <version>${akka.version}</version>
+            </dependency>
+
+            <!-- Akka HTTP -->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-http_2.12</artifactId>
+                <version>${akka-http.version}</version>
+            </dependency>
+
+            <!-- Akka HTTP Jackson -->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-http-jackson_2.12</artifactId>
+                <version>${akka-http.version}</version>
+            </dependency>
+
+            <!-- Akka HTTP Spray JSON -->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-http-spray-json_2.12</artifactId>
+                <version>${akka-http.version}</version>
+            </dependency>
+
+            <!-- Akka Remote -->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-remote_2.12</artifactId>
+                <version>${akka.version}</version>
+            </dependency>
+
+            <!-- Akka Discovery -->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-discovery_2.12</artifactId>
+                <version>${akka.version}</version>
             </dependency>
 
             <!-- lombok 简化 java 代码 -->
