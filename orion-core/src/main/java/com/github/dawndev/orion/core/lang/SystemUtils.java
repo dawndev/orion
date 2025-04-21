@@ -1,6 +1,5 @@
-package com.github.dawndev.orion.broker.lang;
+package com.github.dawndev.orion.core.lang;
 
-import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,12 +14,21 @@ import java.util.UUID;
 
 public class SystemUtils {
 
+    private static final Logger log = LoggerFactory.getLogger(SystemUtils.class);
 
+    public static String ENV_K8S_HOST = "KUBERNETES_SERVICE_HOST";
+    public static String ENV_K8S_PORT = "KUBERNETES_SERVICE_PORT";
     public static final String OS_NAME = System.getProperty("os.name");
 
-    private static final Logger log = LoggerFactory.getLogger(SystemUtils.class);
     private static boolean isLinuxPlatform = false;
     private static boolean isWindowsPlatform = false;
+
+    public static boolean isRunningInK8s() {
+        String kubernetesHost = System.getenv(ENV_K8S_HOST);
+        String kubernetesPort = System.getenv(ENV_K8S_PORT);
+
+        return kubernetesHost != null && kubernetesPort != null;
+    }
 
     static {
         if (OS_NAME != null && OS_NAME.toLowerCase().contains("linux")) {
@@ -36,36 +44,6 @@ public class SystemUtils {
         return isWindowsPlatform;
     }
 
-    public static Selector openSelector() throws IOException {
-        Selector result = null;
-
-        if (isLinuxPlatform()) {
-            try {
-                final Class<?> providerClazz = Class.forName("sun.nio.ch.EPollSelectorProvider");
-                if (providerClazz != null) {
-                    try {
-                        final Method method = providerClazz.getMethod("provider");
-                        if (method != null) {
-                            final SelectorProvider selectorProvider = (SelectorProvider)method.invoke(null);
-                            if (selectorProvider != null) {
-                                result = selectorProvider.openSelector();
-                            }
-                        }
-                    } catch (final Exception e) {
-                        log.warn("Open ePoll Selector for linux platform exception", e);
-                    }
-                }
-            } catch (final Exception e) {
-                // ignore
-            }
-        }
-
-        if (result == null) {
-            result = Selector.open();
-        }
-
-        return result;
-    }
 
     public static boolean isLinuxPlatform() {
         return isLinuxPlatform;
@@ -140,21 +118,7 @@ public class SystemUtils {
         return sb.toString();
     }
 
-    /**
-     * 获取客户端的ip地址
-     *
-     * @param channel
-     * @return
-     */
-    public static String getRemoteIP(Channel channel) {
-        InetSocketAddress ipSocket = (InetSocketAddress)channel.remoteAddress();
-        String remoteHost = ipSocket.getAddress().getHostAddress();
-        return remoteHost;
-    }
 
-    public static String getChannelId(Channel channel) {
-        return channel.id().asShortText();
-    }
 
     public static String getUuid() {
         String uuid = UUID.randomUUID().toString();

@@ -19,7 +19,7 @@ class RpcModular {
     @Autowired
     private ApplicationContext context;
 
-    private EnumMap<MsgType, MethodInvocationWrap> rpcHandlers = new EnumMap<>(MsgType.class);
+    private final EnumMap<MsgType, MethodInvocationWrap> rpcHandlers = new EnumMap<>(MsgType.class);
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

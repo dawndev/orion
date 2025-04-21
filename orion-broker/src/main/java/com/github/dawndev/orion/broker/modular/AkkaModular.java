@@ -2,16 +2,15 @@ package com.github.dawndev.orion.broker.modular;
 
 import com.github.dawndev.orion.broker.config.AkkaConfig;
 import com.github.dawndev.orion.core.annotation.Modular;
+import com.github.dawndev.orion.core.modular.AbstractModular;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.io.Closeable;
-import java.io.IOException;
 
 @Modular
 @Component
-public class AkkaModular implements Closeable {
+public class AkkaModular extends AbstractModular {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -23,9 +22,18 @@ public class AkkaModular implements Closeable {
 
     }
 
+    @Override
+    public void start() {
+
+    }
 
     @Override
-    public void close() throws IOException {
+    public void stop() {
 
+    }
+
+    @Override
+    public int getPhase() {
+        return 0;
     }
 }

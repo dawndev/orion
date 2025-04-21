@@ -12,9 +12,6 @@ public class Application {
 
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
-//    @Value("${spring.application.name}")
-//    private String applicationName;
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

@@ -1,6 +1,8 @@
 package com.github.dawndev.orion.broker.config;
 
 import akka.actor.ActorSystem;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -26,7 +28,18 @@ public class AkkaConfig {
     @Bean(destroyMethod = "terminate")
     public ActorSystem actorSystem() {
         logger.info("Create ActorSystem: {}", systemName);
-        return ActorSystem.create(systemName);
+
+        // 加载配置文件
+        Config config = ConfigFactory.parseString(
+                "akka.remote.artery.canonical.hostname = " + "hostname" + "\n" +
+                        "akka.remote.artery.canonical.port = " + "port"
+        ).withFallback(ConfigFactory.load("akka-broker.conf"));
+        // 创建 ActorSystem
+
+        ActorSystem actorSystem = ActorSystem.create(systemName, config);
+
+        logger.info("Started actor system '{}', member {}", actorSystem, actorSystem.provider().getDefaultAddress());
+        return actorSystem;
     }
 
 
