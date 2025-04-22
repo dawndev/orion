@@ -4,7 +4,7 @@ import com.github.dawndev.orion.core.annotation.AutoProxy;
 import com.github.dawndev.orion.core.annotation.Modular;
 import com.github.dawndev.orion.core.annotation.Rpc;
 import com.github.dawndev.orion.core.lang.method.MethodInvocationWrap;
-import com.github.dawndev.orion.core.rpc.MsgType;
+import com.github.dawndev.orion.core.rpc.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ class RpcModular {
     @Autowired
     private ApplicationContext context;
 
-    private final EnumMap<MsgType, MethodInvocationWrap> rpcHandlers = new EnumMap<>(MsgType.class);
+    private final EnumMap<MessageType, MethodInvocationWrap> rpcHandlers = new EnumMap<>(MessageType.class);
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -30,7 +30,7 @@ class RpcModular {
             Method[] methods = beanObj.getClass().getDeclaredMethods();
             for (Method method : methods) {
                 Optional.ofNullable(method.getAnnotation(Rpc.class)).ifPresent((handler) -> {
-                    MsgType msgType = handler.msgCode();
+                    MessageType msgType = handler.msgCode();
                     String alias = handler.alias();
                     String innerChecker = handler.checker();
                     long exp = handler.exp();

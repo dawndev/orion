@@ -1,6 +1,6 @@
 package com.github.dawndev.orion.core.annotation;
 
-import com.github.dawndev.orion.core.rpc.MsgType;
+import com.github.dawndev.orion.core.rpc.MessageType;
 
 import java.lang.annotation.*;
 
@@ -12,7 +12,7 @@ public @interface Rpc {
     /**
      * 消息码
      */
-    MsgType msgCode();
+    MessageType msgCode();
 
     /**
      * 检查方法
