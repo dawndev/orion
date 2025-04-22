@@ -14,8 +14,11 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+/**
+ * 系统组件的管理者
+ */
 @Component
-public class ModularRegister extends AbstractHandlerRegister implements CommandLineRunner, ApplicationListener<ContextRefreshedEvent> {
+public class ModularKeeper extends AbstractHandlerRegister implements CommandLineRunner, ApplicationListener<ContextRefreshedEvent> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

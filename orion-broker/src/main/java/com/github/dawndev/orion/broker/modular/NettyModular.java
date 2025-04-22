@@ -3,7 +3,7 @@ package com.github.dawndev.orion.broker.modular;
 import com.github.dawndev.orion.broker.net.SimpleTcpServerHandler;
 import com.github.dawndev.orion.broker.lang.NettyUtils;
 import com.github.dawndev.orion.core.annotation.Modular;
-import com.github.dawndev.orion.broker.config.ApplicationConfig;
+import com.github.dawndev.orion.broker.config.BrokerConfig;
 import com.github.dawndev.orion.broker.config.NettyConfig;
 import com.github.dawndev.orion.core.concurrent.NamedThreadFactory;
 import com.github.dawndev.orion.core.modular.AbstractModular;
@@ -31,7 +31,7 @@ public class NettyModular extends AbstractModular {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private ApplicationConfig applicationConfig;
+    private BrokerConfig brokerConfig;
 
     @Autowired
     private NettyConfig nettyConfig;
@@ -45,7 +45,7 @@ public class NettyModular extends AbstractModular {
     private ChannelFuture channelFuture;
 
     public void init() {
-        logger.info("初始化netty, {}, {}, {}", applicationConfig.getTcpPort(), nettyConfig.getBossThreadCount(), nettyConfig.getWorkThreadCount());
+        logger.info("初始化netty, {}, {}, {}", brokerConfig.getTcpPort(), nettyConfig.getBossThreadCount(), nettyConfig.getWorkThreadCount());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class NettyModular extends AbstractModular {
         logger.info("准备启动netty");
         int bossThreads = nettyConfig.getBossThreadCount();
         int workThreads = nettyConfig.getWorkThreadCount();
-        int port = applicationConfig.getTcpPort();
+        int port = brokerConfig.getTcpPort();
         boolean useEpoll = NettyUtils.isEpollAvailable();
 
         // 它主要用来处理连接的管理

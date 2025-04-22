@@ -64,6 +64,12 @@
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
             <!--spring-boot配置文件扫描相关-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -71,7 +77,6 @@
                 <version>${spring-boot.version}</version>
                 <optional>true</optional>
             </dependency>
-
             <!--netty-->
             <dependency>
                 <groupId>io.netty</groupId>

@@ -5,12 +5,15 @@ import akka.actor.ActorSystem;
 import akka.actor.CoordinatedShutdown;
 import ch.qos.logback.classic.LoggerContext;
 import com.github.dawndev.orion.core.annotation.Modular;
+import com.github.dawndev.orion.core.enums.ApplicationState;
+import com.github.dawndev.orion.core.state.StateChangeCommandEvent;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.LifecycleProcessor;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -27,6 +30,10 @@ public class AkkaCoordinatedModular extends AbstractModular {
     @Autowired
     private ActorSystem actorSystem;
 
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+
+
     public void init() {
 
     }
@@ -41,6 +48,7 @@ public class AkkaCoordinatedModular extends AbstractModular {
                 "enter-stopping-state",
                 taskSupplier(()->{
                     logger.info("Coordinated 关闭 - PhaseBeforeServiceUnbind 阶段，服务器状态切换为STOPPING");
+                    eventPublisher.publishEvent(new StateChangeCommandEvent(this, ApplicationState.STOPPING, "Coordinated 关闭"));
                 })
         );
         coordinatedShutdown.addTask(

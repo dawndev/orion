@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "orion.broker")
-public class ApplicationConfig {
+public class BrokerConfig {
 
     private int tcpPort = 0;
 
