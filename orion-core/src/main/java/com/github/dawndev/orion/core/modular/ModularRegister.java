@@ -3,7 +3,6 @@ package com.github.dawndev.orion.core.modular;
 import com.github.dawndev.orion.core.annotation.Modular;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
@@ -16,8 +15,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 @Component
-public class ModularRegister extends AbstractHandlerRegister implements CommandLineRunner, DisposableBean,
-        ApplicationListener<ContextRefreshedEvent> {
+public class ModularRegister extends AbstractHandlerRegister implements CommandLineRunner, ApplicationListener<ContextRefreshedEvent> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -52,15 +50,6 @@ public class ModularRegister extends AbstractHandlerRegister implements CommandL
         processor.start();
 
         logger.info("all modular started synchronously.");
-    }
-
-    @Override
-    public void destroy() throws Exception {
-        logger.info("Application is shutting down. Performing graceful shutdown...");
-
-        // 获取 LifecycleProcessor
-        LifecycleProcessor processor = context.getBean(LifecycleProcessor.class);
-        processor.stop();
     }
 
     @Override

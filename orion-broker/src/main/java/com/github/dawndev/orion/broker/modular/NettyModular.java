@@ -87,23 +87,20 @@ public class NettyModular extends AbstractModular {
         logger.info("started on port: {}", port);
 
         // 开启一个线程，监控网络服务器的关闭
-        NamedThreadFactory.Builder builder = new NamedThreadFactory.Builder();
-        builder.namingPattern("netty-sync-close");
-        NamedThreadFactory threadFactory = builder.build();
-        threadFactory.newThread(() -> {
-            try {
-                // 等待关闭
-                channelFuture.channel().closeFuture().sync();
-                logger.info( "Netty服务器关闭了{} ", channelFuture.channel());
-
-            } catch (Exception e) {
-                logger.error("", e);
-            } finally {
-                bossGroup.shutdownGracefully();
-                workerGroup.shutdownGracefully();
-                logger.info("All loop groups are closed");
-            }
-        }).start();
+        new NamedThreadFactory.Builder().namingPattern("netty-sync-close").build().newThread(
+            () -> {
+                try {
+                    // 等待关闭
+                    channelFuture.channel().closeFuture().sync();
+                    logger.info( "Netty服务器关闭了{} ", channelFuture.channel());
+                } catch (Exception e) {
+                    logger.error("", e);
+                } finally {
+                    bossGroup.shutdownGracefully();
+                    workerGroup.shutdownGracefully();
+                    logger.info("All loop groups are closed");
+                }
+            }).start();
 
         // 等待端口启动完毕
         try {

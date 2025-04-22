@@ -3,11 +3,15 @@ package com.github.dawndev.orion.core.modular;
 import akka.Done;
 import akka.actor.ActorSystem;
 import akka.actor.CoordinatedShutdown;
+import ch.qos.logback.classic.LoggerContext;
 import com.github.dawndev.orion.core.annotation.Modular;
+import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.LifecycleProcessor;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Supplier;
@@ -16,6 +20,9 @@ import java.util.function.Supplier;
 public class AkkaCoordinatedModular extends AbstractModular {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private ApplicationContext context;
 
     @Autowired
     private ActorSystem actorSystem;
@@ -146,6 +153,22 @@ public class AkkaCoordinatedModular extends AbstractModular {
                 CoordinatedShutdown.PhaseBeforeActorSystemTerminate(),
                 "stop-global-components",
                 taskSupplier(()->{
+                    LifecycleProcessor processor = context.getBean(LifecycleProcessor.class);
+                    processor.stop();
+
+                    // 手动触发停机
+                    SpringApplication.exit(context,
+                            () -> {
+                                logger.info("关闭SpringApplication");
+                                return 0;
+                            }
+                    );
+
+                    // 停止日志
+                    ILoggerFactory factory = LoggerFactory.getILoggerFactory();
+                    if (factory instanceof LoggerContext) {
+                        ((LoggerContext) factory).stop();
+                    }
                     logger.info("Coordinated 关闭 - PhaseBeforeActorSystemTerminate 阶段，停止全局组件；服务器状态切换为STOPPED");
                 })
         );
