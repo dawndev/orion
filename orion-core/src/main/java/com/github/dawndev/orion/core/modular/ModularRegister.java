@@ -47,10 +47,11 @@ public class ModularRegister extends AbstractHandlerRegister implements CommandL
         // 获取 LifecycleProcessor
         LifecycleProcessor processor = context.getBean(LifecycleProcessor.class);
 
+        logger.info("手动启动所有 SmartLifecycle 组件.");
         // 手动启动所有 SmartLifecycle 组件
         processor.start();
 
-        logger.info("All components started synchronously.");
+        logger.info("all modular started synchronously.");
     }
 
     @Override

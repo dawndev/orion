@@ -1,10 +1,11 @@
 package com.github.dawndev.orion.broker.modular;
 
-import com.github.dawndev.orion.broker.SimpleTcpServerHandler;
+import com.github.dawndev.orion.broker.net.SimpleTcpServerHandler;
 import com.github.dawndev.orion.broker.lang.NettyUtils;
 import com.github.dawndev.orion.core.annotation.Modular;
 import com.github.dawndev.orion.broker.config.ApplicationConfig;
 import com.github.dawndev.orion.broker.config.NettyConfig;
+import com.github.dawndev.orion.core.concurrent.NamedThreadFactory;
 import com.github.dawndev.orion.core.modular.AbstractModular;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -49,6 +50,7 @@ public class NettyModular extends AbstractModular {
 
     @Override
     public void start() {
+        logger.info("准备启动netty");
         int bossThreads = nettyConfig.getBossThreadCount();
         int workThreads = nettyConfig.getWorkThreadCount();
         int port = applicationConfig.getTcpPort();
@@ -62,37 +64,58 @@ public class NettyModular extends AbstractModular {
                 : new NioEventLoopGroup(workThreads);
 
         ServerBootstrap bootstrap = new ServerBootstrap();
+        // 创建连接channel的初始化器
+        bootstrap.group(bossGroup, workerGroup)
+                .channel(useEpoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
+                .option(ChannelOption.SO_BACKLOG, 128).option(ChannelOption.SO_REUSEADDR, true)
+                .childOption(ChannelOption.TCP_NODELAY, true)
+                .childOption(ChannelOption.SO_SNDBUF, NettyConfig.MAX_FRAME_BYTES_LENGTH)
+                .childOption(ChannelOption.SO_RCVBUF, NettyConfig.MAX_FRAME_BYTES_LENGTH)
+                .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+                .childHandler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel ch) {
+                        ChannelPipeline pipeline = ch.pipeline();
+                        pipeline.addLast(
+                                new StringDecoder(),
+                                new StringEncoder(),
+                                simpleTcpServerHandler
+                        );
+                    }
+                });
+        channelFuture = bootstrap.bind(port);
+        logger.info("started on port: {}", port);
+
+        // 开启一个线程，监控网络服务器的关闭
+        NamedThreadFactory.Builder builder = new NamedThreadFactory.Builder();
+        builder.namingPattern("netty-sync-close");
+        NamedThreadFactory threadFactory = builder.build();
+        threadFactory.newThread(() -> {
+            try {
+                // 等待关闭
+                channelFuture.channel().closeFuture().sync();
+                logger.info( "Netty服务器关闭了{} ", channelFuture.channel());
+
+            } catch (Exception e) {
+                logger.error("", e);
+            } finally {
+                bossGroup.shutdownGracefully();
+                workerGroup.shutdownGracefully();
+                logger.info("All loop groups are closed");
+            }
+        }).start();
+
+        // 等待端口启动完毕
         try {
-            // 创建连接channel的初始化器
-            bootstrap.group(bossGroup, workerGroup)
-                    .channel(useEpoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
-                    .option(ChannelOption.SO_BACKLOG, 128).option(ChannelOption.SO_REUSEADDR, true)
-                    .childOption(ChannelOption.TCP_NODELAY, true)
-                    .childOption(ChannelOption.SO_SNDBUF, NettyConfig.MAX_FRAME_BYTES_LENGTH)
-                    .childOption(ChannelOption.SO_RCVBUF, NettyConfig.MAX_FRAME_BYTES_LENGTH)
-                    .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel ch) {
-                            ChannelPipeline pipeline = ch.pipeline();
-                            pipeline.addLast(
-                                    new StringDecoder(),
-                                    new StringEncoder(),
-                                    simpleTcpServerHandler
-                            );
-                        }
-                    });
-            channelFuture = bootstrap.bind(port);
             channelFuture.sync();
-            channelFuture.channel().closeFuture().sync();
-        } catch (Exception e) {
-            logger.error("服务器启动失败,自动退出", e);
-            System.exit(0);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public void stop() {
+        logger.info("准备关闭netty");
         if (channelFuture != null) {
             channelFuture.channel().close();
         }
@@ -105,8 +128,11 @@ public class NettyModular extends AbstractModular {
         if (bossGroup != null) {
             bossGroup.shutdownGracefully(quietPeriod, timeout, timeUnit);
         }
+        super.stop();
     }
 
+
+    // Positive values also represent the order in which components are stopped during the container shutdown.
     @Override
     public int getPhase() {
         return 0;

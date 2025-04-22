@@ -16,4 +16,10 @@ public abstract class AbstractModular implements SmartLifecycle {
     public boolean isRunning() {
         return running;
     }
+
+
+    @Override
+    public void stop() {
+        running = false;
+    }
 }

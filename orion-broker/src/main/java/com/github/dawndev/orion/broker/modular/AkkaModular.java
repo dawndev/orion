@@ -24,12 +24,12 @@ public class AkkaModular extends AbstractModular {
 
     @Override
     public void start() {
-
+        logger.info("AAkka start");
     }
 
     @Override
     public void stop() {
-
+        logger.info("准备关闭Akka");
     }
 
     @Override
