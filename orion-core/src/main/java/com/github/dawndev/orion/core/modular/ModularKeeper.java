@@ -60,9 +60,9 @@ public class ModularKeeper extends AbstractHandlerRegister implements CommandLin
         Map<String, SmartLifecycle> lifecycleBeans = context.getBeansOfType(SmartLifecycle.class);
         boolean allRunning = lifecycleBeans.values().stream().allMatch(SmartLifecycle::isRunning);
         if (allRunning) {
-            System.out.println("All SmartLifecycle components have started.");
+            logger.info("all SmartLifecycle components have started.");
         } else {
-            System.out.println("Some SmartLifecycle components are not running.");
+            logger.info("some SmartLifecycle components are not running.");
         }
     }
 }

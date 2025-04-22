@@ -34,6 +34,8 @@
         <spring-boot.version>2.7.2</spring-boot.version>
         <!-- 网络库 : https://mvnrepository.com/artifact/io.netty/netty-all -->
         <netty.version>4.1.119.Final</netty.version>
+        <protobuf.version>2.6.1</protobuf.version>
+        <protobuf.javaformat.version>1.2</protobuf.javaformat.version>
         <!-- Akka :https://mvnrepository.com/artifact/com.typesafe.akka -->
         <akka.version>2.6.19</akka.version>
         <!-- Akka Http :https://mvnrepository.com/artifact/com.typesafe.akka -->
@@ -83,6 +85,20 @@
                 <artifactId>netty-all</artifactId>
                 <version>${netty.version}</version>
             </dependency>
+
+            <!--protobuf-->
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.googlecode.protobuf-java-format</groupId>
+                <artifactId>protobuf-java-format</artifactId>
+                <version>${protobuf.javaformat.version}</version>
+            </dependency>
+
 
             <!-- Akka Actor -->
             <dependency>

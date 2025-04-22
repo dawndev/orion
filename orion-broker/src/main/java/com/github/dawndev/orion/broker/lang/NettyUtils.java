@@ -1,11 +1,12 @@
 package com.github.dawndev.orion.broker.lang;
 
+import akka.actor.ActorRef;
 import com.github.dawndev.orion.core.lang.SystemUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.epoll.Epoll;
+import io.netty.util.AttributeKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
@@ -89,5 +90,9 @@ public class NettyUtils {
         }
 
         return result;
+    }
+
+    public static AttributeKey<ActorRef> getChannelKey() {
+        return AttributeKey.valueOf("CHANNEL_ACTOR");
     }
 }

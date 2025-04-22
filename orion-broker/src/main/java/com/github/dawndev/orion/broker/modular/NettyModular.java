@@ -1,12 +1,13 @@
 package com.github.dawndev.orion.broker.modular;
 
-import com.github.dawndev.orion.broker.net.SimpleTcpServerHandler;
+import com.github.dawndev.orion.broker.net.SimpleChannelInboundHandler;
 import com.github.dawndev.orion.broker.lang.NettyUtils;
 import com.github.dawndev.orion.core.annotation.Modular;
 import com.github.dawndev.orion.broker.config.BrokerConfig;
 import com.github.dawndev.orion.broker.config.NettyConfig;
 import com.github.dawndev.orion.core.concurrent.NamedThreadFactory;
 import com.github.dawndev.orion.core.modular.AbstractModular;
+import com.github.dawndev.orion.core.proto.AppMessage.BaseMessage;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
@@ -15,8 +16,10 @@ import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldPrepender;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +40,7 @@ public class NettyModular extends AbstractModular {
     private NettyConfig nettyConfig;
 
     @Autowired
-    SimpleTcpServerHandler simpleTcpServerHandler;
+    private SimpleChannelInboundHandler simpleChannelInboundHandler;
 
     private ApplicationContext context;
     private EventLoopGroup bossGroup = null;
@@ -75,12 +78,15 @@ public class NettyModular extends AbstractModular {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) {
+                        BaseMessage appMessage = BaseMessage.getDefaultInstance();
+
                         ChannelPipeline pipeline = ch.pipeline();
-                        pipeline.addLast(
-                                new StringDecoder(),
-                                new StringEncoder(),
-                                simpleTcpServerHandler
-                        );
+                        pipeline.addLast(new LengthFieldBasedFrameDecoder(2036334592, 0, 4,
+                                0, 4));
+                        pipeline.addLast(new ProtobufDecoder(appMessage));
+                        pipeline.addLast(new LengthFieldPrepender(4));
+                        pipeline.addLast(new ProtobufEncoder());
+                        pipeline.addLast(simpleChannelInboundHandler);
                     }
                 });
         channelFuture = bootstrap.bind(port);

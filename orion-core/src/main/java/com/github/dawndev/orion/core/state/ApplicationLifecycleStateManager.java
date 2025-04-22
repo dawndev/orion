@@ -33,6 +33,7 @@ public class ApplicationLifecycleStateManager {
     }
 
     @Order(Ordered.HIGHEST_PRECEDENCE)
+    @EventListener
     public void handleStateChangeCommand(StateChangeCommandEvent event) {
         boolean success = stateManager.performStateTransition(event.getTargetState(), event.getReason());
         if (success) {

@@ -7,7 +7,7 @@ spring:
 
 orion:
   broker:
-    tcp-port: 6001
+    tcp-port: 8011
 
 netty:
   boss-thread-count: 1
