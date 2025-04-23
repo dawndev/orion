@@ -90,7 +90,7 @@ public class NettyModular extends AbstractModular {
                     }
                 });
         channelFuture = bootstrap.bind(port);
-        logger.info("started on port: {}", port);
+        logger.info("tcp server started on port: {}", port);
 
         // 开启一个线程，监控网络服务器的关闭
         new NamedThreadFactory.Builder().namingPattern("netty-sync-close").build().newThread(

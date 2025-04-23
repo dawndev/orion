@@ -54,12 +54,12 @@ public class SimpleChannelInboundHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        tellChannelActor(ctx, msg);
+        this.tellChannelActor(ctx, msg);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        tellChannelActor(ctx, new ChannelInactive(0));
+        this.tellChannelActor(ctx, new ChannelInactive(0));
     }
 
     private void tellChannelActor(ChannelHandlerContext ctx, Object msg) {
